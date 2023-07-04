@@ -33,8 +33,8 @@ module.exports = class StreamingServer extends ReadyResource {
       rtmp: {
         chunk_size: 128,
         ping: 60,
-        ping_timeout: 30
-        // gop_cache: true
+        ping_timeout: 30,
+        gop_cache: true
       }
     }, socket)
 
