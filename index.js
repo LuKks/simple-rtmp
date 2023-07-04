@@ -1,4 +1,5 @@
 const net = require('net')
+const crypto = require('crypto')
 const ReadyResource = require('ready-resource')
 const RTMP = require('node-media-server/src/node_rtmp_session.js')
 
@@ -50,6 +51,12 @@ module.exports = class StreamingServer extends ReadyResource {
 
     session.run()
   }
+
+  sign (name, expires) {
+    if (!this.auth.secret) return null
+
+    return expires + '-' + createHash('md5', '/' + name + '-' + expires + '-' + this.auth.secret)
+  }
 }
 
 function serverListen (server, port, address) {
@@ -87,4 +94,8 @@ function serverClose (server, connections) {
       if (--waiting === 0) resolve()
     }
   })
+}
+
+function createHash (algo, text) {
+  return crypto.createHash(algo).update(text).digest('hex')
 }
