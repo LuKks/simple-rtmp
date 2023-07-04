@@ -9,6 +9,12 @@ module.exports = class StreamingServer extends ReadyResource {
     this.port = typeof opts.port !== 'undefined' ? Number(opts.port) : 1935
     this.host = typeof opts.host !== 'undefined' ? opts.host : null
 
+    this.auth = {
+      play: !!opts.auth?.play,
+      publish: !!opts.auth?.publish,
+      secret: opts.auth?.secret || null
+    }
+
     this.server = net.createServer()
     this.server.on('connection', this._onconnection.bind(this))
 
@@ -35,7 +41,8 @@ module.exports = class StreamingServer extends ReadyResource {
         ping: 60,
         ping_timeout: 30,
         gop_cache: true
-      }
+      },
+      auth: { ...this.auth }
     }, socket)
 
     this.sessions.add(session)
