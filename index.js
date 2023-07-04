@@ -59,7 +59,7 @@ module.exports = class StreamingServer extends ReadyResource {
   sign (name, expires) {
     if (!this.auth.secret) return null
 
-    return expires + '-' + createHash('md5', '/' + name + '-' + expires + '-' + this.auth.secret)
+    return expires + '-' + createHash('md5', '/live/' + name + '-' + expires + '-' + this.auth.secret)
   }
 }
 
