@@ -36,6 +36,9 @@ module.exports = class StreamingServer extends ReadyResource {
   }
 
   _onconnection (socket) {
+    this.connections.add(socket)
+    socket.on('close', () => this.connections.delete(socket))
+
     const session = new RTMP({
       rtmp: {
         chunk_size: 128,
