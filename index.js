@@ -1,4 +1,5 @@
 const net = require('net')
+const tls = require('tls')
 const crypto = require('crypto')
 const ReadyResource = require('ready-resource')
 const RTMP = require('node-media-server/src/node_rtmp_session.js')
@@ -16,7 +17,7 @@ module.exports = class StreamingServer extends ReadyResource {
       secret: opts.auth?.secret || null
     }
 
-    this.server = net.createServer()
+    this.server = opts.ssl ? tls.createServer({ ...opts.ssl }) : net.createServer()
     this.server.on('connection', this._onconnection.bind(this))
 
     this.connections = new Set()
