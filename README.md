@@ -1,15 +1,16 @@
-# simple-streaming
+# simple-rtmp
 
 RTMP tools for real-time streaming
 
 ```
-npm i simple-streaming
+npm i simple-rtmp
 ```
 
 ## Usage
 
-```js
-const StreamingServer = require('simple-streaming')
+```sh
+rtmp server
+rtmp client <server-public-key> --port 1936
 ```
 
 ## License

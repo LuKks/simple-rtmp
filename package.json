@@ -1,24 +1,24 @@
 {
-  "name": "simple-streaming",
+  "name": "simple-rtmp",
   "version": "0.0.0",
   "description": "RTMP tools for real-time streaming",
   "main": "bin.js",
   "bin": {
-    "simple-streaming": "./bin.js"
+    "rtmp": "./bin.js"
   },
   "scripts": {
     "test": "standard && brittle test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/LuKks/simple-streaming.git"
+    "url": "https://github.com/LuKks/simple-rtmp.git"
   },
   "author": "Lucas Barrena (LuKks)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LuKks/simple-streaming/issues"
+    "url": "https://github.com/LuKks/simple-rtmp/issues"
   },
-  "homepage": "https://github.com/LuKks/simple-streaming#readme",
+  "homepage": "https://github.com/LuKks/simple-rtmp#readme",
   "dependencies": {
     "b4a": "^1.6.4",
     "commander": "^11.0.0",
