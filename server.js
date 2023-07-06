@@ -96,10 +96,10 @@ module.exports = class StreamingServer extends ReadyResource {
   }
 }
 
-function secureContext (cert, key) {
+function secureContext (ssl) {
   return {
-    cert: fs.readFileSync(cert), // => fullchain.pem
-    key: fs.readFileSync(key) // => privkey.pem
+    cert: fs.readFileSync(ssl.cert), // => fullchain.pem
+    key: fs.readFileSync(ssl.key) // => privkey.pem
   }
 }
 
