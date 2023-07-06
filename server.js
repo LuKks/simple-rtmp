@@ -1,4 +1,3 @@
-const fs = require('fs')
 const http = require('http')
 const https = require('https')
 const DHT = require('hyperdht')
@@ -27,7 +26,7 @@ module.exports = class StreamingServer extends ReadyResource {
     this.serverPublish.on('connection', this._onpublishconnection.bind(this))
 
     this.playConnections = new Set()
-    this.serverPlay = opts.ssl ? https.createServer({ ...secureContext(opts.ssl) }) : http.createServer()
+    this.serverPlay = opts.ssl ? https.createServer({ ...opts.ssl }) : http.createServer()
     this.serverPlay.on('connection', this._onplayconnection.bind(this))
     this.serverPlay.on('request', this._onplayrequest.bind(this))
 
@@ -93,13 +92,6 @@ module.exports = class StreamingServer extends ReadyResource {
     if (!this.auth.secret) return null
 
     return expires + '-' + createHash('md5', '/live/' + name + '-' + expires + '-' + this.auth.secret)
-  }
-}
-
-function secureContext (ssl) {
-  return {
-    cert: fs.readFileSync(ssl.cert), // => fullchain.pem
-    key: fs.readFileSync(ssl.key) // => privkey.pem
   }
 }
 
