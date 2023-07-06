@@ -54,7 +54,6 @@ module.exports = class StreamingServer extends ReadyResource {
 
     // Patch so RTMP doesn't think it's local due auth
     // socket.remoteAddress = '1.2.3.4'
-    console.log(socket.remoteAddress)
 
     const config = {
       rtmp: {
@@ -79,6 +78,16 @@ module.exports = class StreamingServer extends ReadyResource {
 
   _onplayrequest (req, res) {
     console.log('New play request')
+
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    // res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Content-Length,Authorization,Accept,X-Requested-With')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE')
+    // res.setHeader('Access-Control-Allow-Credentials', true)
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(200).end()
+      return
+    }
 
     const config = {
       auth: { ...this.auth }
