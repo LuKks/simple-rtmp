@@ -14,6 +14,7 @@ module.exports = async function cmd (options = {}) {
   await server.ready()
 
   console.log(server.publicKey.toString('hex'))
+  console.log(server.serverPlay.address())
 
   const expires = Date.now() + (30 * 24 * 60 * 60 * 1000)
   console.log('sign', server.sign('lukks', expires))

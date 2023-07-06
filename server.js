@@ -70,11 +70,15 @@ module.exports = class StreamingServer extends ReadyResource {
   }
 
   _onplayconnection (socket) {
+    console.log('New play connection')
+
     this.playConnections.add(socket)
     socket.on('close', () => this.playConnections.delete(socket))
   }
 
   _onplayrequest (req, res) {
+    console.log('New play request')
+
     // Patch so RTMP doesn't think it's local due auth
     req.socket.remoteAddress = '1.2.3.4'
 
