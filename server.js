@@ -53,7 +53,8 @@ module.exports = class StreamingServer extends ReadyResource {
     socket.uncork = noop
 
     // Patch so RTMP doesn't think it's local due auth
-    socket.remoteAddress = '1.2.3.4'
+    // socket.remoteAddress = '1.2.3.4'
+    console.log(socket.remoteAddress)
 
     const config = {
       rtmp: {
@@ -79,9 +80,6 @@ module.exports = class StreamingServer extends ReadyResource {
   _onplayrequest (req, res) {
     console.log('New play request')
 
-    // Patch so RTMP doesn't think it's local due auth
-    req.socket.remoteAddress = '1.2.3.4'
-
     const config = {
       auth: { ...this.auth }
     }
@@ -89,6 +87,7 @@ module.exports = class StreamingServer extends ReadyResource {
     req.nmsConnectionType = 'http'
 
     const session = new NodeFlvSession(config, req, res)
+    session.ip = '1.2.3.4' // Patch so RTMP doesn't think it's local due auth
     session.run()
   }
 
