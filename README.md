@@ -1,6 +1,6 @@
 # simple-streaming
 
-RTMP server for real-time streaming
+RTMP tools for real-time streaming
 
 ```
 npm i simple-streaming
