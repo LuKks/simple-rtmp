@@ -19,6 +19,7 @@ program
 async function cmd (options = {}) {
   const seed = filegen('server-seed')
   const authSecret = HypercoreId.encode(filegen('server-auth-secret'))
+  const ssl = options.cert && options.key ? { cert: options.cert, key: options.key } : null
 
   const server = new StreamingServer({
     seed,
@@ -28,11 +29,19 @@ async function cmd (options = {}) {
     },
     host: options.host,
     port: options.port || 8035,
-    ssl: options.cert && options.key ? { cert: options.cert, key: options.key } : null
+    ssl
   })
   await server.ready()
 
   console.log('Server public key:', HypercoreId.encode(server.publicKey))
 
+  const listening = server.serverPlay.address()
+  console.log('HTTP server', (ssl ? 'https' : 'http') + '://' + getHost(listening.address) + ':' + listening.port)
+
   goodbye(() => server.close())
+}
+
+function getHost (address) {
+  if (address === '::' || address === '0.0.0.0') return 'localhost'
+  return address
 }
