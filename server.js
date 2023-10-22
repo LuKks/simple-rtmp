@@ -1,7 +1,8 @@
-const http = require('http')
 const https = require('https')
-const DHT = require('hyperdht')
+const http = require('http')
+const fs = require('fs')
 const crypto = require('crypto')
+const DHT = require('hyperdht')
 const ReadyResource = require('ready-resource')
 const safetyCatch = require('safety-catch')
 const NodeRtmpSession = require('node-media-server/src/node_rtmp_session.js')
@@ -26,7 +27,7 @@ module.exports = class StreamingServer extends ReadyResource {
     this.serverPublish.on('connection', this._onpublishconnection.bind(this))
 
     this.playConnections = new Set()
-    this.serverPlay = opts.ssl ? https.createServer({ ...opts.ssl }) : http.createServer()
+    this.serverPlay = opts.ssl ? https.createServer({ ...secureContext(opts.ssl) }) : http.createServer()
     this.serverPlay.on('connection', this._onplayconnection.bind(this))
     this.serverPlay.on('request', this._onplayrequest.bind(this))
 
@@ -108,6 +109,13 @@ module.exports = class StreamingServer extends ReadyResource {
     if (!secret) return null
 
     return expires + '-' + createHash('md5', '/live/' + name + '-' + expires + '-' + secret)
+  }
+}
+
+function secureContext (ssl) {
+  return {
+    cert: fs.readFileSync(ssl.cert), // => fullchain.pem
+    key: fs.readFileSync(ssl.key) // => privkey.pem
   }
 }
 
