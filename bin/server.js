@@ -13,6 +13,8 @@ const program = new Command()
 program
   .description('Create a RTMP server')
   .option('--port <number>', 'Port')
+  .option('--cert <fullchain.pem>', 'Path to the fullchain .pem file')
+  .option('--key <privkey.pem>', 'Path to the private key .pem file')
   .action(cmd)
   .parseAsync()
 
@@ -26,7 +28,9 @@ async function cmd (options = {}) {
       publish: true,
       secret: authSecret
     },
-    port: options.port || 8035
+    host: options.host,
+    port: options.port || 8035,
+    ssl: options.cert && options.key ? { cert: options.cert, key: options.key } : null
   })
   await server.ready()
 
