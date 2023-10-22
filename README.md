@@ -14,6 +14,8 @@ Run the main server
 simple-rtmp-server [--port 8035] [--host 0.0.0.0] [--cert <fullchain.pem>] [--key <privkey.pem>]
 ```
 
+Recommended to generate a SSL certificate with Certbot
+
 Create a stream key for a streamer
 
 ```sh
@@ -36,7 +38,7 @@ When the stream starts, this will transmit to the main server
 
 Anyone can access to any stream like so `http://<main-server-ip>:8035/live/<name>.flv`
 
-You could generate a SSL certificate, and use the lib pro-flv.js in the browser
+You could use the lib pro-flv.js in the browser for playback
 
 ## License
 
