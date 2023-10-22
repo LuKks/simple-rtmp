@@ -6,8 +6,6 @@ const HypercoreId = require('hypercore-id-encoding')
 const StreamingServer = require('../server.js')
 const filegen = require('../lib/filegen.js')
 
-const STREAM_KEY_EXPIRATION_USR = 365 * 24 * 60 * 60 * 1000
-
 const program = new Command()
 
 program
