@@ -23,11 +23,11 @@
   "homepage": "https://github.com/LuKks/simple-rtmp#readme",
   "dependencies": {
     "b4a": "^1.6.4",
-    "commander": "^11.0.0",
+    "commander": "^11.1.0",
     "graceful-goodbye": "^1.3.0",
     "hypercore-crypto": "^3.4.0",
     "hypercore-id-encoding": "^1.2.0",
-    "hyperdht": "^6.6.1",
+    "hyperdht": "^6.9.0",
     "node-media-server": "^2.6.2",
     "pump": "^3.0.0",
     "ready-resource": "^1.0.0",
