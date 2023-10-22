@@ -1,43 +1,35 @@
+#!/usr/bin/env node
+
+const { Command } = require('commander')
 const goodbye = require('graceful-goodbye')
-const b4a = require('b4a')
+const HypercoreId = require('hypercore-id-encoding')
 const StreamingClient = require('../client.js')
 // const exit = require('../lib/exit.js')
 
-module.exports = async function cmd (serverPublicKey, options = {}) {
-  serverPublicKey = b4a.from(serverPublicKey, 'hex')
+const program = new Command()
+
+program
+  .description('Start live streaming')
+  .argument('<key>', 'Server public key')
+  .option('--port <number>', 'Bind to port')
+  .action(cmd)
+  .parseAsync()
+
+async function cmd (serverPublicKey, options = {}) {
+  serverPublicKey = HypercoreId.decode(serverPublicKey)
 
   const client = new StreamingClient(serverPublicKey, {
-    port: options.port
+    port: options.port || 1935
   })
   await client.ready()
 
-  console.log(client.address())
+  const listening = client.address()
+  console.log('Custom server', getHost(listening.address) + ':' + listening.port)
 
   goodbye(() => client.close())
 }
 
-/*
-const fs = require('fs')
-const StreamingServer = require('./index.js')
-
-main()
-
-async function main () {
-  const server = new StreamingServer({
-    auth: {
-      publish: true,
-      secret: 'c5439ae2090cb2d6cc6eaf651ac90b5dc8c1d3cc'
-    },
-    ssl: {
-      cert: fs.readFileSync('/etc/letsencrypt/live/tv.leet.ar/fullchain.pem'),
-      key: fs.readFileSync('/etc/letsencrypt/live/tv.leet.ar/privkey.pem')
-    }
-  })
-  await server.ready()
-
-  console.log(server.address())
-
-  const expires = Date.now() + (24 * 60 * 60 * 1000)
-  console.log('sign', server.sign('lukks', expires))
+function getHost (address) {
+  if (address === '::' || address === '0.0.0.0') return 'localhost'
+  return address
 }
-*/

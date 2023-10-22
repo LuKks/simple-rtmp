@@ -1,49 +1,36 @@
-const goodbye = require('graceful-goodbye')
-const b4a = require('b4a')
-const StreamingServer = require('../server.js')
-// const exit = require('../lib/exit.js')
+#!/usr/bin/env node
 
-module.exports = async function cmd (options = {}) {
+const { Command } = require('commander')
+const goodbye = require('graceful-goodbye')
+const HypercoreId = require('hypercore-id-encoding')
+const StreamingServer = require('../server.js')
+const filegen = require('../lib/filegen.js')
+
+const STREAM_KEY_EXPIRATION_USR = 365 * 24 * 60 * 60 * 1000
+
+const program = new Command()
+
+program
+  .description('Create a RTMP server')
+  .option('--port <number>', 'Port')
+  .action(cmd)
+  .parseAsync()
+
+async function cmd (options = {}) {
+  const seed = filegen('server-seed')
+  const authSecret = HypercoreId.encode(filegen('server-auth-secret'))
+
   const server = new StreamingServer({
-    seed: b4a.from('6391a84db448a94747bfe2fda82c73e2e07f1448f4b52e9ee2d167c93b68c490', 'hex'),
+    seed,
     auth: {
       publish: true,
-      secret: 'c5439ae2090cb2d6cc6eaf651ac90b5dc8c1d3cc'
-    }
+      secret: authSecret
+    },
+    port: options.port || 8035
   })
   await server.ready()
 
-  console.log(server.publicKey.toString('hex'))
-  console.log(server.serverPlay.address())
-
-  const expires = Date.now() + (30 * 24 * 60 * 60 * 1000)
-  console.log('sign', server.sign('lukks', expires))
+  console.log('Server public key:', HypercoreId.encode(server.publicKey))
 
   goodbye(() => server.close())
 }
-
-/*
-const fs = require('fs')
-const StreamingServer = require('./index.js')
-
-main()
-
-async function main () {
-  const server = new StreamingServer({
-    auth: {
-      publish: true,
-      secret: 'c5439ae2090cb2d6cc6eaf651ac90b5dc8c1d3cc'
-    },
-    ssl: {
-      cert: fs.readFileSync('/etc/letsencrypt/live/tv.leet.ar/fullchain.pem'),
-      key: fs.readFileSync('/etc/letsencrypt/live/tv.leet.ar/privkey.pem')
-    }
-  })
-  await server.ready()
-
-  console.log(server.address())
-
-  const expires = Date.now() + (24 * 60 * 60 * 1000)
-  console.log('sign', server.sign('lukks', expires))
-}
-*/

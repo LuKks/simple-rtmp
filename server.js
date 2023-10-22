@@ -12,7 +12,7 @@ module.exports = class StreamingServer extends ReadyResource {
   constructor (opts = {}) {
     super()
 
-    this.port = typeof opts.port !== 'undefined' ? Number(opts.port) : 1935
+    this.port = typeof opts.port !== 'undefined' ? Number(opts.port) : 8035
     this.host = typeof opts.host !== 'undefined' ? opts.host : null
 
     this.auth = {
@@ -101,9 +101,13 @@ module.exports = class StreamingServer extends ReadyResource {
   }
 
   sign (name, expires) {
-    if (!this.auth.secret) return null
+    return StreamingServer.sign(name, expires, this.auth.secret)
+  }
 
-    return expires + '-' + createHash('md5', '/live/' + name + '-' + expires + '-' + this.auth.secret)
+  static sign (name, expires, secret) {
+    if (!secret) return null
+
+    return expires + '-' + createHash('md5', '/live/' + name + '-' + expires + '-' + secret)
   }
 }
 
