@@ -34,7 +34,7 @@ When the stream starts, this will transmit to the main server
 
 ## Watcher
 
-Anyone can access to any stream like so `http://<main-server-ip>:1935/live/<name>.flv`
+Anyone can access to any stream like so `http://<main-server-ip>:8035/live/<name>.flv`
 
 You could generate a SSL certificate, and use the lib pro-flv.js in the browser
 
