@@ -1,6 +1,6 @@
 {
   "name": "simple-rtmp",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "RTMP tools for real-time streaming",
   "main": "bin.js",
   "bin": {
