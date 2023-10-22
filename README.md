@@ -40,6 +40,8 @@ Anyone can access to any stream like so `http://<main-server-ip>:8035/live/<name
 
 You could use the lib pro-flv.js in the browser for playback
 
+Example here https://github.com/LuKks/rtmp-frontend
+
 ## License
 
 MIT
