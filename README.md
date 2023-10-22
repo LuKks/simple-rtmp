@@ -38,8 +38,6 @@ Anyone can access to any stream like so `http://<main-server-ip>:1935/live/<name
 
 You could generate a SSL certificate, and use the lib pro-flv.js in the browser
 
-Otherwise, you could use e.g. Hypershell tunnels between main server and watchers
-
 ## License
 
 MIT
