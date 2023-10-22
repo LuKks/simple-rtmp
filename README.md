@@ -11,7 +11,7 @@ npm i -g simple-rtmp
 Run the main server
 
 ```sh
-simple-rtmp-server [--port 1935] [--host 0.0.0.0] [--cert <fullchain.pem>] [--key <privkey.pem>]
+simple-rtmp-server [--port 8035] [--host 0.0.0.0] [--cert <fullchain.pem>] [--key <privkey.pem>]
 ```
 
 Create a stream key for a streamer
